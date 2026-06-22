@@ -3,6 +3,7 @@ import { dummyEmployeeData, DEPARTMENTS } from "../assets/assets.jsx";
 import { Plus, PlusIcon, Search, X } from "lucide-react";
 import EmployeeCard from "../components/EmployeeCard.js";
 import EmployeeForm from "../components/EmployeeForm.js";
+import Loading from "../components/Loading.js";
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
@@ -22,16 +23,20 @@ const Employees = () => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, []);
+  }, [selectedDept]);
 
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [fetchEmployees]);
+
   const filtered = employees.filter((emp) =>
     `${emp.firstName} ${emp.lastName} ${emp.position}`
       .toLowerCase()
       .includes(search.toLowerCase()),
   );
+
+  if (loading) return <Loading />;
+
   return (
     <div className="animate-fade-in">
       {/* header */}
